@@ -39,7 +39,7 @@ class CorreoController extends Controller
         if ($enviado) {
             return response()->json([
                 'status' => 'success',
-                'message' => 'Se ha enviado el correo exitosamente'
+                'message' => 'Se ha enviado el correo exitosamente, pronto te contactaremos'
             ]);
         } else {
             return response()->json([

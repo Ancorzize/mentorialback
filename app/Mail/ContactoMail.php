@@ -34,7 +34,7 @@ class ContactoMail extends Mailable
     {
         return new Envelope(
             from: new \Illuminate\Mail\Mailables\Address($this->correo, $this->nombre),
-            subject: 'Nuevo Mensaje de Contacto',
+            subject: 'Nuevo Mensaje de Contacto en MentorialPRO',
         );
     }
 
