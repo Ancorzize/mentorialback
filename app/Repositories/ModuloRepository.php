@@ -29,6 +29,11 @@ class ModuloRepository
 
     public function getModuloByIdConvocatoria($convocatoriaId)
     {   
-        return Modulo::where('id_convocatoria', $convocatoriaId);
+        return Modulo::where('id_convocatoria', $convocatoriaId)->orderBy('id', 'asc')->get();
+    }
+
+    public function getModuloByIdConvocatoriaCollection($convocatoriaId)
+    {   
+        return Modulo::where('id_convocatoria', $convocatoriaId)->orderBy('id', 'asc');
     }
 }

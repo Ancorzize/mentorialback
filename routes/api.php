@@ -31,6 +31,7 @@ Route::post('/convocatorias', [ConvocatoriaController::class, 'store']);
 Route::get('/convocatoriasall', [ConvocatoriaController::class, 'list']);
 
 Route::get('/modulos', [ModuloController::class, 'index']);
+Route::get('/modulosbyconvocatoria', [ModuloController::class, 'getModulos']);
 Route::post('/modulos', [ModuloController::class, 'store']);
 
 Route::post('/encabezado', [EncabezadoController::class, 'store']);

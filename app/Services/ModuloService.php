@@ -24,6 +24,15 @@ class ModuloService
     }
 
     /**
+     * Obtiene todos los modulos por id de convocatoria
+     *
+     */
+    public function getModulosByIdConvocatoria($idConvocatoria)
+    {
+        return  $this->moduloRepository->getModuloByIdConvocatoria($idConvocatoria);
+    }
+
+    /**
      * Crea un nuevo modulo.
      *
      * @param array $data

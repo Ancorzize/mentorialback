@@ -36,7 +36,7 @@ class Convocatoria extends Model
             'convocatoria_x_usuarios',       // Nombre de la tabla pivote
             'id_convocatoria',               // FK en la tabla pivote para convocatoria
             'id_usuario'                     // FK en la tabla pivote para usuario
-        );
+        )->withPivot('estado');
     }
     
 }

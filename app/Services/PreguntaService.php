@@ -179,7 +179,7 @@ class PreguntaService
         // --- Obtener convocatoria y módulo ---
         $convocatoria = $this->convocatoriaRepository->getConvocatoriaByUser($convocatoriaId, $userId);
 
-        $moduloQuery = $this->moduloRepository->getModuloByIdConvocatoria($convocatoriaId);
+        $moduloQuery = $this->moduloRepository->getModuloByIdConvocatoriaCollection($convocatoriaId);
         if ($moduloId) {
             $moduloQuery->where('id', $moduloId);
         }

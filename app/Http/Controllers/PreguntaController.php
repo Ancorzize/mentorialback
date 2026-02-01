@@ -55,16 +55,18 @@ class PreguntaController extends Controller
             'id_convocatoria'   => 'required',
             'id_usuario'        => 'required',
             'id_ultima_pregunta'=> 'required',
+            'id_modulo'=> 'required',
         ]);
 
         $convocatoriaId   = $request->query('id_convocatoria');
         $userId           = $request->query('id_usuario');
         $id_ultima_pregunta = $request->query('id_ultima_pregunta');
+        $id_modulo = $request->query('id_modulo');
 
         $result = $this->preguntaService->getPreguntasByConvocatoria(
             $convocatoriaId, 
             $userId, 
-            null, 
+            $id_modulo, 
             $id_ultima_pregunta
         );
 

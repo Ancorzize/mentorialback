@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\ModuloService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use Exception;
 class ModuloController extends Controller
 {
     protected $moduloService;
@@ -24,6 +24,23 @@ class ModuloController extends Controller
     {
         $modulos = $this->moduloService->getAllModulos();
         return response()->json($modulos);
+    }
+
+     /**
+     * Lista todas las convocatorias, con opción de búsqueda.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getModulos()
+    {
+        try {
+            $idconvocatoria = request()->query('id_convocatoria'); 
+
+            $convocatorias = $this->moduloService->getModulosByIdConvocatoria($idconvocatoria);
+            return response()->json($convocatorias, 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Error al obtener los modulos de la convocatoria.'], 500);
+        }
     }
 
     /**

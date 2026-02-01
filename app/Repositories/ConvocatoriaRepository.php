@@ -77,15 +77,15 @@ class ConvocatoriaRepository
 
     public function registrarUsuarioConvocatoria(int $convocatoriaId, int $userId)
     {
-        ConvocatoriaUsuario::create([
-            'id_convocatoria' => $convocatoriaId,
-            'id_usuario'      => $userId,
-            'estado'          => false,
+        $convocatoria = Convocatoria::findOrFail($convocatoriaId);
+
+        $convocatoria->usuarios()->syncWithoutDetaching([
+            $userId => ['estado' => false]
         ]);
 
-        return ConvocatoriaUsuario::where('id_convocatoria', $convocatoriaId)
-        ->where('id_usuario', $userId)
-        ->first();
+        return $convocatoria->usuarios()
+            ->where('usuarios.id', $userId)
+            ->first();
     }
 
     public function contarRespuestasPorConvocatoria(int $convocatoriaId, int $userId)
