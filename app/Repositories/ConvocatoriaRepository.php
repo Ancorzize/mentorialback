@@ -176,5 +176,17 @@ class ConvocatoriaRepository
             'data' => $data,
         ];
     }
+
+    /**
+     * Obtiene convocatorias visibles en plataforma
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getConvocatoriasPlataforma()
+    {
+        return Convocatoria::query()
+            ->where('noticiaplataforma', true)
+            ->get();
+    }
   
 }

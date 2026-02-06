@@ -70,7 +70,6 @@ class ConvocatoriaService
      */
     public function listAll()
     {
-        $aList = $this->convocatoriaRepository->all();
-        return $aList;
+       return $this->convocatoriaRepository->getConvocatoriasPlataforma();
     }
 }

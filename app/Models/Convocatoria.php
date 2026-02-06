@@ -18,7 +18,8 @@ class Convocatoria extends Model
         'logotipo',
         'descripcion',
         'enlace',
-        'etiqueta'
+        'etiqueta',
+        'noticiaplataforma'
     ];
 
     /**
@@ -35,7 +36,7 @@ class Convocatoria extends Model
             Usuario::class,                  // Modelo relacionado
             'convocatoria_x_usuarios',       // Nombre de la tabla pivote
             'id_convocatoria',               // FK en la tabla pivote para convocatoria
-            'id_usuario'                     // FK en la tabla pivote para usuario
+            'id_usuario'                    // FK en la tabla pivote para usuario
         )->withPivot('estado');
     }
     
