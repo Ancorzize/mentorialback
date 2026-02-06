@@ -140,6 +140,7 @@ class ConvocatoriaRepository
                 $opciones = DB::table('opciones')
                     ->where('id_pregunta', $pregunta->id_pregunta)
                     ->select('opcion', 'descripcion_opcion', 'correcta')
+                    ->orderBy('opcion', 'asc')
                     ->get();
                 $preguntasArray[] = [
                     'pregunta' => [
