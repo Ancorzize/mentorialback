@@ -17,7 +17,7 @@ class RespuestaUsuarioController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * guardar respuestas del usuario
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

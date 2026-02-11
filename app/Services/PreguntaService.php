@@ -165,6 +165,7 @@ class PreguntaService
         $limit = 9;
         if ($registro->estado == false) {
             $respuestasCount = $this->convocatoriaRepository->contarRespuestasPorConvocatoria($convocatoriaId, $userId);
+            
             $remaining = $limitFree - $respuestasCount;
             if ($remaining <= 0) {
                 return response()->json([
@@ -194,14 +195,19 @@ class PreguntaService
         // --- Traer las próximas preguntas globalmente y sus opciones ---
         $encabezadoIds = $encabezados->pluck('id')->toArray();
 
-        $preguntas = \App\Models\Pregunta::with(['opciones' => function($q) {
-                $q->select('id','id_pregunta','opcion','descripcion_opcion','correcta')->orderBy('opcion');
+        $preguntas = \App\Models\Pregunta::from('preguntas as p')
+            ->join('encabezados as e', 'e.id', '=', 'p.id_encabezado')
+            ->with(['opciones' => function ($q) {
+                $q->select('id', 'id_pregunta', 'opcion', 'descripcion_opcion', 'correcta')
+                ->orderBy('opcion');
             }])
-            ->whereIn('id_encabezado', $encabezadoIds)
-            ->when($idUltimaPregunta > 0, function($q) use ($idUltimaPregunta) {
-                $q->where('id', '>', $idUltimaPregunta);
+            ->select('p.*', 'e.id_modulo')
+            ->whereIn('p.id_encabezado', $encabezadoIds)
+            ->where('e.id_modulo', $moduloId)
+            ->when($idUltimaPregunta > 0, function ($q) use ($idUltimaPregunta) {
+                $q->where('p.id', '>', $idUltimaPregunta);
             })
-            ->orderBy('id')
+            ->orderBy('p.id')
             ->limit($limit)
             ->get();
 
@@ -222,7 +228,7 @@ class PreguntaService
         });
 
         // --- Mapear encabezados con sus preguntas/opciones (solo los con preguntas) ---
-        $dataEncabezados = $encabezadosConPreguntas->map(function ($en) use ($preguntasPorEncabezado) {
+        $dataEncabezados = $encabezadosConPreguntas->map(function ($en) use ($preguntasPorEncabezado, $modulo) {
             $pregs = $preguntasPorEncabezado->get($en->id);
 
             $pregsFormateadas = $pregs->map(function ($pr) {
@@ -245,6 +251,10 @@ class PreguntaService
                 "encabezado" => [
                     "id_encabezado" => $en->id,
                     "encabezado"    => $en->texto,
+                ],
+                "modulo" => [
+                    "id_modulo" => $modulo->id,
+                    "nombre"    => $modulo->nombre,
                 ],
                 "preguntas" => $pregsFormateadas,
             ];

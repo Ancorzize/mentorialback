@@ -19,6 +19,7 @@ class RespuestaUsuario extends Model
         'id_usuario',
         'respuesta_usuario',
         'correcta',
+        'id_modulo'
     ];
 
     // Relaciones
@@ -39,9 +40,10 @@ class RespuestaUsuario extends Model
         return $this->belongsTo(Usuario::class, 'id_usuario');
     }
 
-    public function scopeUltimaPreguntaRespondida($query, int $idUsuario, int $idConvocatoria)
+    public function scopeUltimaPreguntaRespondida($query, int $idUsuario, int $idConvocatoria, int $idModulo)
     {
         return $query->where('id_usuario', $idUsuario)
+            ->where('id_modulo', $idModulo)
             ->whereHas('pregunta.encabezado.modulo', function ($q) use ($idConvocatoria) {
                 $q->where('id_convocatoria', $idConvocatoria);
             })

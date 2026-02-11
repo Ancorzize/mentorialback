@@ -3,14 +3,17 @@
 namespace App\Services;
 
 use App\Repositories\ModuloRepository;
+use App\Repositories\RespuestaUsuarioRepository;
 
 class ModuloService
 {
     protected $moduloRepository;
+    protected $respuestaUsuarioRepository;
 
-    public function __construct(ModuloRepository $moduloRepository)
+    public function __construct(ModuloRepository $moduloRepository, RespuestaUsuarioRepository $respuestaUsuarioRepository)
     {
         $this->moduloRepository = $moduloRepository;
+        $this->respuestaUsuarioRepository = $respuestaUsuarioRepository;
     }
 
     /**
@@ -27,9 +30,16 @@ class ModuloService
      * Obtiene todos los modulos por id de convocatoria
      *
      */
-    public function getModulosByIdConvocatoria($idConvocatoria)
+    public function getModulosByIdConvocatoria($idConvocatoria, $id_usuario)
     {
-        return  $this->moduloRepository->getModuloByIdConvocatoria($idConvocatoria);
+        $aList = $this->moduloRepository->getModuloByIdConvocatoria($idConvocatoria);
+        foreach($aList as $list)
+        {
+            $ultima_pregunta = $this->respuestaUsuarioRepository->getUltimaPreguntaRespondida($id_usuario, $idConvocatoria, $list->id);
+            $list->ultima_pregunta = $ultima_pregunta;
+        }
+
+        return $aList;
     }
 
     /**

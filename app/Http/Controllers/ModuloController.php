@@ -34,9 +34,11 @@ class ModuloController extends Controller
     public function getModulos()
     {
         try {
-            $idconvocatoria = request()->query('id_convocatoria'); 
+            $idconvocatoria = request()->query('id_convocatoria');
+            $idusuario = request()->query('id_usuario');   
 
-            $convocatorias = $this->moduloService->getModulosByIdConvocatoria($idconvocatoria);
+            $convocatorias = $this->moduloService->getModulosByIdConvocatoria($idconvocatoria, $idusuario);
+            
             return response()->json($convocatorias, 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Error al obtener los modulos de la convocatoria.'], 500);

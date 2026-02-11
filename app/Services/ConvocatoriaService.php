@@ -46,11 +46,6 @@ class ConvocatoriaService
     public function list(string $query = '', $id_usuario)
     {
         $aList = $this->convocatoriaRepository->list($query);
-        foreach($aList as $list)
-        {
-            $ultima_pregunta = $this->respuestaUsuarioRepository->getUltimaPreguntaRespondida($id_usuario, $list->id);
-            $list->ultima_pregunta = $ultima_pregunta;
-        }
         return $aList;
     }
 

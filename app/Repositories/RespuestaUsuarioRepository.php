@@ -15,9 +15,9 @@ class RespuestaUsuarioRepository
         return RespuestaUsuario::create($data);
     }
 
-    public function getUltimaPreguntaRespondida(int $idUsuario, int $idConvocatoria): ?int
+    public function getUltimaPreguntaRespondida(int $idUsuario, int $idConvocatoria, int $idModulo): ?int
     {
-        return RespuestaUsuario::ultimaPreguntaRespondida($idUsuario, $idConvocatoria)
+        return RespuestaUsuario::ultimaPreguntaRespondida($idUsuario, $idConvocatoria, $idModulo)
             ->value('id_pregunta');
     }
 

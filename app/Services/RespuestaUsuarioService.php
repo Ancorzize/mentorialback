@@ -32,6 +32,7 @@ class RespuestaUsuarioService
                     'id_usuario' => $data['id_usuario'],
                     'respuesta_usuario' => $data['opcion'],
                     'correcta' => $data['correcta'],
+                    'id_modulo' => $data['id_modulo']
                 ];
 
                 $respuesta = $this->respuestaUsuarioRepository->create($formattedData);
