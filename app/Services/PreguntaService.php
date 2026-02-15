@@ -126,6 +126,7 @@ class PreguntaService
             '*.data.*.opciones.*.opcion' => 'required|string',
             '*.data.*.opciones.*.descripcion_opcion' => 'required|string',
             '*.data.*.opciones.*.correcta' => 'required|boolean',
+            '*.data.*.opciones.*.retroalimentacion' => 'required',
         ]);
 
         if ($validator->fails()) {

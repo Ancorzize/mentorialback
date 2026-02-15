@@ -99,6 +99,7 @@ class PreguntaRepository
                             'descripcion_opcion' => $datosOpcion['descripcion_opcion'],
                             'correcta' => $datosOpcion['correcta'],
                             'id_pregunta' => $pregunta->id,
+                            'retroalimentacion' => $datosOpcion['retroalimentacion']
                         ]);
                     }
                 }

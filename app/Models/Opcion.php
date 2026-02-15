@@ -20,6 +20,7 @@ class Opcion extends Model
         'opcion',
         'descripcion_opcion',
         'correcta',
+        'retroalimentacion'
     ];
 
     /**
