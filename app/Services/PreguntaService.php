@@ -243,6 +243,7 @@ class PreguntaService
                             "opcion"             => $op->opcion,
                             "descripcion_opcion" => $op->descripcion_opcion,
                             "correcta"           => (bool) $op->correcta,
+                            "retroalimentacion" => $op->retroalimentacion
                         ];
                     })->values(),
                 ];
@@ -261,10 +262,8 @@ class PreguntaService
             ];
         })->values();
 
-        // --- (opcional) id de la última pregunta enviada para el siguiente llamado ---
         $ultimaPreguntaEnviada = $preguntas->last()->id ?? $idUltimaPregunta;
 
-        // --- payload final ---
         $payload = [
             "message" => "Preguntas obtenidas exitosamente.",
             "data" => [
@@ -277,7 +276,7 @@ class PreguntaService
                     "nombre"    => $modulo->nombre,
                 ],
                 "data" => $dataEncabezados,
-                // Si quieres, devolvemos la última pregunta enviada (útil para paginar)
+              
                 "ultima_pregunta_enviada" => $ultimaPreguntaEnviada,
             ],
         ];
