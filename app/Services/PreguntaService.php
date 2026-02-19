@@ -199,7 +199,7 @@ class PreguntaService
         $preguntas = \App\Models\Pregunta::from('preguntas as p')
             ->join('encabezados as e', 'e.id', '=', 'p.id_encabezado')
             ->with(['opciones' => function ($q) {
-                $q->select('id', 'id_pregunta', 'opcion', 'descripcion_opcion', 'correcta')
+                $q->select('id', 'id_pregunta', 'opcion', 'descripcion_opcion', 'correcta', 'retroalimentacion')
                 ->orderBy('opcion');
             }])
             ->select('p.*', 'e.id_modulo')
@@ -240,6 +240,7 @@ class PreguntaService
                     ],
                     "opciones" => $pr->opciones->map(function ($op) {
                         return [
+                            "id"                => $op->id,
                             "opcion"             => $op->opcion,
                             "descripcion_opcion" => $op->descripcion_opcion,
                             "correcta"           => (bool) $op->correcta,

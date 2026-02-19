@@ -55,7 +55,7 @@ class PreguntaController extends Controller
             'id_convocatoria'   => 'required',
             'id_usuario'        => 'required',
             'id_ultima_pregunta'=> 'required',
-            'id_modulo'=> 'required',
+            'id_modulo'=> 'required'
         ]);
 
         $convocatoriaId   = $request->query('id_convocatoria');
