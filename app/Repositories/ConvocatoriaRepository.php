@@ -105,6 +105,7 @@ class ConvocatoriaRepository
         return DB::table('convocatoria_x_usuarios as cxu')
             ->join('convocatorias as c', 'cxu.id_convocatoria', '=', 'c.id')
             ->where('cxu.id_usuario', $userId)
+            ->where('cxu.estado', true)
             ->select('cxu.id_convocatoria', 'cxu.id_usuario', 'c.codigo as codigo_convocatoria', 'c.nombre as nombre_convocatoria')
             ->get();
     }

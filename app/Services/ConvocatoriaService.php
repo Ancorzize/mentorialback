@@ -87,6 +87,11 @@ class ConvocatoriaService
         return $convocatoriaData;
         
     }
+
+    public function getConvocatoriasByUsuario(int $userId) {
+        return $this->convocatoriaRepository->getConvocatoriasByUsuario($userId);
+    }
+
     
     public function getRespuestasByConvocatoria(int $userId, int $convocatoriaId) {
         return $this->convocatoriaRepository->getRespuestasByConvocatoria($userId, $convocatoriaId);
