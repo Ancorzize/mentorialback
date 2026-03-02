@@ -113,62 +113,17 @@ class ConvocatoriaController extends Controller
     }
 
     /**
-     * Lista todas las convocatorias por id de usuario
+     * Lista todas las estadisticas del usuario
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function obtenerConvocatoriasByUsuario()
+    public function obtenerEstadisticasPorUsuario()
     {
         try { 
             $id_usuario = request()->query('id_usuario'); 
 
-            //$convocatorias = $this->convocatoriaService->getConvocatoriasByUsuario($id_usuario);
-            $convocatorias = [
-            [
-                "id_convocatoria" => 6,
-                "id_usuario" => 1,
-                "codigo_convocatoria" => "202420262",
-                "nombre_convocatoria" => "Contraloría General de la República - Profesional/Ejecutivo",
-                "modulo" => [
-                    [
-                        "id_modulo" => "1",
-                        "nombre_modulo" => "Modulo 1"
-                    ],
-                    [
-                        "id_modulo" => "2",
-                        "nombre_modulo" => "Modulo 2"
-                    ]
-                ],
-                "avance" => [
-                    "total_preguntas" => 400,
-                    "total_contestadas" => 150,
-                    "total_correctas" => 100,
-                    "total_incorrectas" => 50
-                ]
-            ],
-            [
-                "id_convocatoria" => 7,
-                "id_usuario" => 1,
-                "codigo_convocatoria" => "202420263",
-                "nombre_convocatoria" => "Contraloría General de la República - Asesor",
-                "modulo" => [
-                    [
-                        "id_modulo" => "3",
-                        "nombre_modulo" => "Modulo 3"
-                    ],
-                    [
-                        "id_modulo" => "4",
-                        "nombre_modulo" => "Modulo 4"
-                    ]
-                ],
-                "avance" => [
-                    "total_preguntas" => 400,
-                    "total_contestadas" => 50,
-                    "total_correctas" => 40,
-                    "total_incorrectas" => 10
-                ]
-            ]
-        ];
+            $convocatorias = $this->convocatoriaService->obtenerEstadisticasPorUsuario($id_usuario);
+
             return response()->json($convocatorias, 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Error al obtener las convocatorias.'], 500);

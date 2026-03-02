@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\RespuestaUsuario;
-
+use Illuminate\Support\Facades\DB;
 class RespuestaUsuarioRepository 
 {
     /**
@@ -33,5 +33,26 @@ class RespuestaUsuarioRepository
                       ->where('m.id_convocatoria', $id_convocatoria);
             })
             ->delete();
+    }
+
+    public function obtenerEstadisticas($idUsuario, $idConvocatoria)
+    {
+        $resultado = DB::table('preguntas as p')
+            ->join('encabezados as e', 'e.id', '=', 'p.id_encabezado')
+            ->join('modulos as m', 'm.id', '=', 'e.id_modulo')
+            ->leftJoin('respuesta_usuarios as r', function ($join) use ($idUsuario) {
+                $join->on('r.id_pregunta', '=', 'p.id')
+                     ->where('r.id_usuario', '=', $idUsuario);
+            })
+            ->where('m.id_convocatoria', $idConvocatoria)
+            ->selectRaw("
+                COUNT(DISTINCT p.id) FILTER (WHERE r.id_usuario = ?) AS total_contestadas,
+                COUNT(DISTINCT p.id) FILTER (WHERE r.id_usuario = ? AND r.correcta = true) AS total_correctas,
+                COUNT(DISTINCT p.id) FILTER (WHERE r.id_usuario = ? AND r.correcta = false) AS total_incorrectas,
+                COUNT(DISTINCT p.id) AS total_preguntas
+            ", [$idUsuario, $idUsuario, $idUsuario])
+            ->first();
+
+        return $resultado;
     }
 }

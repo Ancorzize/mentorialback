@@ -4,16 +4,22 @@ namespace App\Services;
 
 use App\Repositories\ConvocatoriaRepository;
 use App\Repositories\RespuestaUsuarioRepository;
+use App\Repositories\ModuloRepository;
 
 class ConvocatoriaService
 {
     protected $convocatoriaRepository;
     protected $respuestaUsuarioRepository;
+    protected $moduloRepository;
 
-    public function __construct(ConvocatoriaRepository $convocatoriaRepository, RespuestaUsuarioRepository $respuestaUsuarioRepository)
+    public function __construct(ConvocatoriaRepository $convocatoriaRepository, 
+                                RespuestaUsuarioRepository $respuestaUsuarioRepository,
+                                ModuloRepository $moduloRepository
+    )
     {
         $this->convocatoriaRepository = $convocatoriaRepository;
         $this->respuestaUsuarioRepository = $respuestaUsuarioRepository;
+        $this->moduloRepository = $moduloRepository;
     }
 
     /**
@@ -49,8 +55,37 @@ class ConvocatoriaService
         return $aList;
     }
 
-    public function getConvocatoriasByUsuario(int $userId) {
-        return $this->convocatoriaRepository->getConvocatoriasByUsuario($userId);
+    public function obtenerEstadisticasPorUsuario(int $userId) {
+        $convocatoriaActiva =  $this->convocatoriaRepository->getConvocatoriasByUsuarioActivas($userId);
+        $convocatoriaData = array();    
+
+        foreach($convocatoriaActiva as $convocatoria)
+        {
+            $modulos = $this->moduloRepository->getModuloByIdConvocatoria($convocatoria->id_convocatoria);
+            $moduloData = array();
+
+            foreach($modulos as $modulo)
+            {
+                $moduloData[] = [
+                    "id_modulo" => $modulo->id,
+                    "nombre_modulo" => $modulo->nombre
+                ];
+            }
+
+            $respuestaUsuario = $this->respuestaUsuarioRepository->obtenerEstadisticas($userId, $convocatoria->id_convocatoria);
+
+            $convocatoriaData[] = [
+                "id_convocatoria" => $convocatoria->id_convocatoria,
+                "id_usuario" => $userId,
+                "codigo_convocatoria" => $convocatoria->codigo_convocatoria ,
+                "nombre_convocatoria" => $convocatoria->nombre_convocatoria,
+                "modulo" => $moduloData,
+                "avance" => $respuestaUsuario
+            ];
+        }
+        
+        return $convocatoriaData;
+        
     }
     
     public function getRespuestasByConvocatoria(int $userId, int $convocatoriaId) {
