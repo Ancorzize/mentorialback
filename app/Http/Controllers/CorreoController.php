@@ -27,7 +27,7 @@ class CorreoController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Hubo un error de validación en los datos.'
-            ], 422); // Código de error 422
+            ], 422);
         }
 
         $nombre = $request->input('name');
@@ -45,7 +45,7 @@ class CorreoController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Hubo un error al enviar el correo'
-            ], 500); // Código de error 500
+            ], 500);
         }
     }
 }

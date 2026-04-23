@@ -117,7 +117,6 @@ class PreguntaService
 
     public function createBulk(array $data): array
     {
-        // 1. Validar el formato de los datos recibidos.
         $validator = Validator::make($data, [
             '*.encabezados' => 'required|string',
             '*.data' => 'required|array',
@@ -178,7 +177,6 @@ class PreguntaService
             $limit = min(9, $remaining);
         }
 
-        // --- Obtener convocatoria y módulo ---
         $convocatoria = $this->convocatoriaRepository->getConvocatoriaByUser($convocatoriaId, $userId);
 
         $moduloQuery = $this->moduloRepository->getModuloByIdConvocatoriaCollection($convocatoriaId);
@@ -187,13 +185,13 @@ class PreguntaService
         }
         $modulo = $moduloQuery->select('id','nombre','id_convocatoria')->firstOrFail();
 
-        // --- Traer encabezados del módulo (ordenados) ---
+
         $encabezados = \App\Models\Encabezado::where('id_modulo', $modulo->id)
             ->select('id','texto','id_modulo')
             ->orderBy('id')
             ->get();
 
-        // --- Traer las próximas preguntas globalmente y sus opciones ---
+
         $encabezadoIds = $encabezados->pluck('id')->toArray();
 
         $preguntas = \App\Models\Pregunta::from('preguntas as p')
@@ -212,7 +210,6 @@ class PreguntaService
             ->limit($limit)
             ->get();
 
-        // Si no hay preguntas (ya no quedan), devolvemos mensaje claro
         if ($preguntas->isEmpty()) {
             return response()->json([
                 "message" => "No hay más preguntas disponibles.",
@@ -220,15 +217,12 @@ class PreguntaService
             ], 200);
         }
 
-        // --- Agrupar por encabezado ---
         $preguntasPorEncabezado = $preguntas->groupBy('id_encabezado');
 
-        // --- FILTRAR encabezados para quedar sólo con los que tienen preguntas ---
         $encabezadosConPreguntas = $encabezados->filter(function($en) use ($preguntasPorEncabezado) {
             return $preguntasPorEncabezado->has($en->id) && $preguntasPorEncabezado->get($en->id)->isNotEmpty();
         });
 
-        // --- Mapear encabezados con sus preguntas/opciones (solo los con preguntas) ---
         $dataEncabezados = $encabezadosConPreguntas->map(function ($en) use ($preguntasPorEncabezado, $modulo) {
             $pregs = $preguntasPorEncabezado->get($en->id);
 

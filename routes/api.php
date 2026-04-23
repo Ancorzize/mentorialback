@@ -10,6 +10,8 @@ use App\Http\Controllers\OpcionController;
 use App\Http\Controllers\PreguntaController;
 use App\Http\Controllers\RespuestaUsuarioController;
 use App\Http\Controllers\CorreoController;
+use App\Http\Controllers\VisitaController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +53,6 @@ Route::post('/correo', [CorreoController::class, 'enviar']);
 
 Route::get('/convocatoriaxusuario', [ConvocatoriaController::class, 'getConvocatoriasByUsuario']);
 Route::get('/historico', [ConvocatoriaController::class, 'getRespuestas']);
+
+Route::post('/visitas', [VisitaController::class, 'sumarVisita']);
 

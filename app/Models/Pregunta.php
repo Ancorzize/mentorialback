@@ -17,17 +17,11 @@ class Pregunta extends Model
         'pregunta',
     ];
 
-    /**
-     * Relación con la tabla de encabezados.
-     */
     public function encabezado()
     {
         return $this->belongsTo(Encabezado::class, 'id_encabezado');
     }
 
-    /**
-     * Relación con la tabla de opciones.
-     */
     public function opciones()
     {
         return $this->hasMany(Opcion::class, 'id_pregunta');

@@ -33,10 +33,10 @@ class Convocatoria extends Model
     public function usuarios()
     {
         return $this->belongsToMany(
-            Usuario::class,                  // Modelo relacionado
-            'convocatoria_x_usuarios',       // Nombre de la tabla pivote
-            'id_convocatoria',               // FK en la tabla pivote para convocatoria
-            'id_usuario'                    // FK en la tabla pivote para usuario
+            Usuario::class,                  
+            'convocatoria_x_usuarios',   
+            'id_convocatoria',           
+            'id_usuario'                
         )->withPivot('estado');
     }
     

@@ -24,7 +24,6 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        // 1. Validación de datos
         $validator = Validator::make($request->all(), [
             'identificacion' => 'required|string|max:255|unique:usuarios,identificacion',
             'nombres' => 'required|string|max:255',
@@ -41,11 +40,9 @@ class AuthController extends Controller
             ], 422);
         }
 
-        // 2. Separar datos de usuario y login
         $userData = $request->only('identificacion', 'nombres', 'apellidos');
         $loginData = $request->only('correo', 'password');
 
-        // 3. Llamar al servicio
         $result = $this->authService->registerUser($userData, $loginData);
 
         if ($result['success']) {

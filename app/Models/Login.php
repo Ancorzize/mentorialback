@@ -18,9 +18,6 @@ class Login extends Model
         'password',
     ];
 
-    /**
-     * Relación con la tabla de usuarios.
-     */
     public function usuario()
     {
         return $this->belongsTo(Usuario::class, 'id_usuario');

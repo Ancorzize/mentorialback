@@ -24,7 +24,6 @@ class RespuestaUsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        // Validación de los datos del JSON
         $validator = Validator::make($request->all(), [
             '*.id_pregunta' => 'required|integer',
             '*.id_usuario' => 'required|integer',

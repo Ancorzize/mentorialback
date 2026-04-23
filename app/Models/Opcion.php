@@ -11,7 +11,6 @@ class Opcion extends Model
 
     protected $table = 'opciones';
 
-    // Desactivamos los timestamps
     public $timestamps = false;
     protected $casts = ['correcta' => 'boolean'];
 

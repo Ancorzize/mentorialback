@@ -32,10 +32,8 @@ class AuthService
         try {
             DB::beginTransaction();
 
-            // 1. Crear el usuario
             $user = $this->userRepository->create($userData);
 
-            // 2. Encriptar la contraseña y crear el login
             $loginData['password'] = Hash::make($loginData['password']);
             $loginData['id_usuario'] = $user->id;
             $this->loginRepository->create($loginData);
@@ -78,7 +76,6 @@ class AuthService
             'message' => 'Login exitoso.',
             'usuario' => $usuario,
             'login' => $login,
-            // Aquí puedes generar un token JWT o de sesión si lo necesitas
         ];
     }
 }

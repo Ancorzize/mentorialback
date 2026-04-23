@@ -17,9 +17,6 @@ class Usuario extends Model
         'apellidos',
     ];
 
-    /**
-     * Relación con la tabla de login.
-     */
     public function login()
     {
         return $this->hasOne(Login::class, 'id_usuario');
